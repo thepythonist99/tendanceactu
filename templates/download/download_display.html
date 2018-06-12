@@ -1,10 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load staticfiles %}
+{% load disqus_tags %}
+
+{% block title %}
+    | {% trans "Download or listen" %}
+{% endblock title %}
+
+{% block content %}
+    <main class="main-content">
+        <div class="fullwidth-block download">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2 class="page-title">{% trans "Available Music" %}</h2>
+                        {% if length != 0 %}
+                        {% for music in musics %}
+                            <div class="item">
+                                <h3 class="item-title">{{ music.title }} - {{ music.artist }}</h3>
+                                <span class="year">{{ music.release_date }}</span>
+                                <a href="{{ music.song.url }}"
+                                   class="button small primary">
+                                    {% trans "Download" %}
+                                </a>
+                                <audio controls>
+                                    <source src="{{ music.song.url }}">
+                                </audio>
+                                <div class="social-share">
+                                    <span>{% trans "Share" %}:</span>
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode  }}{{ music.song }}">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}{{ music.song }}&text=Listen and download '{{ music.title }}'">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                    <!-- <a href="#"><i class="fa fa-google-plus"></i></a> -->
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% else %}
+                            <p>{% trans "No music available right now. Please check back later" %}.</p>
+                        {% endif %}
+                        <hr><br><br>
+                        {% disqus_show_comments %}
+                    </div>
+
+                    <div class="col-md-5 col-md-push-1">
+                        <h2 class="page-title">{% trans "Corresponding Videos" %}</h2>
+                        {% if length != 0 %}
+                            {% for music in musics %}
+                                <div class="item">
+                                    <h3 class="item-title">{{ music.title }} - {{ music.artist }}</h3>
+                                    <span class="year">{{ music.release_date }}</span>
+
+                                    <a href="{{ music.video.url }}"
+                                       class="button small primary">
+                                        {% trans "Watch and download" %}
+                                    </a>
+                                    <div class="social-share">
+                                        <span>{% trans "Share" %}:</span>
+                                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode  }}{{ music.video }}">
+                                            <i class="fa fa-facebook"></i>
+                                        </a>
+                                        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}{{ music.video }}&text=Watch and download '{{ music.title }}'">
+                                            <i class="fa fa-twitter"></i>
+                                        </a>
+                                        <!--<a href="#"><i class="fa fa-google-plus"></i></a> -->
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>{% trans "Video for this song not yet available" %}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}

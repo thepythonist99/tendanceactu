@@ -1,10 +1,108 @@
+{% load i18n %}
+{% load static %}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
+
+    <title>{% trans "First* Cameroon Culture Trend site" %}{% block title %}{% endblock title %}</title>
+    <!-- Loading third party fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900"
+          rel="stylesheet"
+          type="text/css">
+    <link href="{% static 'fonts/font-awesome.min.css' %}"
+          rel="stylesheet"
+          type="text/css">
+
+    <!-- Loading main css file -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    <!-- Loading favicon -->
+    <link rel="icon" type="image/jpg" href="{% static 'images/favicon.ico' %}">
+
+    {% block extra_css %}{% endblock extra_css %}
 </head>
-<body>
-$END$
+
+<body class={% block body_option %}{% endblock body_option %}>
+
+    <div id="site-content">
+        <header class="site-header">
+            <div class="container">
+                <a href="{% url 'home:home_display' %}" id="branding">
+                    <img src="{% static 'images/logo_ta.jpg' %}"
+                         alt="{% trans 'TendanceActu logo' %}"
+                         width="128" height="36">
+                    <small class="site-description">{% trans "Informs to build" %}</small>
+                </a><!-- #branding -->
+
+                <nav class="main-navigation">
+                    <button type="button" class="toggle-menu">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <ul class="menu">
+                        <li class="menu-item {% block home_option %}{% endblock home_option %}">
+                            <a href="{% url 'home:home_display' %}">{% trans 'Home' %}</a>
+                        </li>
+                        <li class="menu-item"><a href="#">{% trans 'About' %}</a></li>
+                        <li class="menu-item"><a href="{% url 'blog:blog_entries' %}">Blog</a></li>
+                        <li class="menu-item">
+                            <a href={% url 'download:download_display' %}>
+                            {% trans 'Download' %}
+                            </a>
+                        </li>
+                        <!-- <li class="menu-item"><a href="#">{% trans 'Gallery' %}</a></li> -->
+                        <li class="menu-item"><a href="{% url 'contact:contact_display' %}">Contact</a></li>
+                        <li class="menu-item"><a href="#">{% trans 'Contribute' %}</a></li>
+                    </ul><!-- .menu -->
+                </nav>
+                <div class="mobile-menu"></div>
+            </div>
+        </header> <!-- .site-header -->
+
+        {% block content %}{% endblock content %}
+
+        <footer class="site-footer">
+            <div class="container">
+                <img src="{% static 'images/logo_ta.jpg' %}"
+                     alt="TendanceActu"
+                     width="128"
+                     height="36">
+
+                <address>
+                    <p>
+                        1316 rue des Cinquantenaires, Yaounde CM
+                        <br><a href="tel:673821366">(237) 6 73 82 13 66</a>
+                        <br><a href="mailto:frankp@tendanceactu.com"></a>
+                    </p>
+                </address>
+
+                <form action="#" class="newsletter-form">
+                    <input type="email" placeholder="{% trans "Enter your email to join newsletter..." %}">
+                    <input type="submit" class="button cut-corner" value="{% trans 'Subscribe' %}">
+                </form> <!-- .newsletter-form -->
+
+                <div class="social-links">
+                    <a href="#"><i class="fa fa-facebook-square"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-google-plus"></i></a>
+                </div> <!-- .social-links -->
+
+                <p class="copy">
+                    {% trans "Copyright 2018 TendanceActu. All rights reserved" %}
+                </p>
+            </div>
+        </footer> <!-- .site-footer -->
+
+    </div> <!-- #site-content -->
+
+    <script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+
 </body>
+
 </html>
